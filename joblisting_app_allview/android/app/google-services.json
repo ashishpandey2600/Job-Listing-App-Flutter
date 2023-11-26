@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "407784500827",
+    "project_id": "joblistingapp-c00d6",
+    "storage_bucket": "joblistingapp-c00d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407784500827:android:dfb77873e7c919a38a197e",
+        "android_client_info": {
+          "package_name": "com.example.joblisting_app_allview"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn26xbAjLv1sGMBhfFGc0u7kEeMtdTXEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
