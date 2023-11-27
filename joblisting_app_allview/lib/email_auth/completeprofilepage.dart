@@ -194,14 +194,21 @@ class _CompleteProfileState extends State<CompleteProfile> {
               CupertinoButton(
                 child: Text("Submit"),
                 onPressed: () {
-                  checkValues();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ListingScreen(
-                                userModel: widget.userModel,
-                                firebaseuser: widget.firebaseUser,
-                              )));
+                  if (checkBox1Value == false && checkBox2Value == false) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Please specify user type..."),
+                      backgroundColor: Colors.red,
+                    ));
+                  } else {
+                    checkValues();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListingScreen(
+                                  userModel: widget.userModel,
+                                  firebaseuser: widget.firebaseUser,
+                                )));
+                  }
                 },
                 color: Colors.pink,
               )

@@ -124,12 +124,13 @@ class _ListingScreenState extends State<ListingScreen> {
                 onPressed: () {
                   if (widget.userModel != null) {
                     if (widget.userModel!.userType == "Jobprovider") {
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const PublishJob()));
                     } else if (widget.userModel!.userType == "JobSeeker") {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
                           content: Text("Please register as Company First")));
                     }
                   } else {
