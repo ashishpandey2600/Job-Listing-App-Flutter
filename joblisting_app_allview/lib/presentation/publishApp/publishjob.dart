@@ -74,15 +74,15 @@ class _PublishJobState extends State<PublishJob> {
                 controller: jobnameController,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    labelText: 'Job Name',
-                    hintText: 'Job Name'),
+                    labelText: 'Company Name',
+                    hintText: 'Company Name'),
               ),
               TextField(
                 controller: technameController,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    labelText: 'tech',
-                    hintText: 'tech'),
+                    labelText: 'Tech Role',
+                    hintText: 'Tech Role'),
               ),
               TextField(
                 controller: jobtypeController,

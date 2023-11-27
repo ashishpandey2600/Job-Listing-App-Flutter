@@ -8,6 +8,7 @@ import 'package:joblisting_app_allview/email_auth/signup.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../ChatFunctionality/model/usermodel.dart';
+import '../main.dart';
 import '../presentation/dashboardscreen.dart';
 import '../presentation/listingScreen.dart';
 
@@ -68,8 +69,13 @@ class _LoginPageState extends State<LoginPage> {
           //               userModel: userModel,
           //               firebaseUser: userCredential.user!,
           //             ))); //becomes the first page after login and replace the login page
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => ListingScreen()));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MyAppLoggedIn(
+                        userModel: userModel,
+                        firebaseUser: userCredential.user!,
+                      )));
         }
       } on FirebaseAuthException catch (e) {
         setState(() {

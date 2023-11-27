@@ -199,7 +199,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ListingScreen(
-                               
+                                userModel: widget.userModel,
+                                firebaseuser: widget.firebaseUser,
                               )));
                 },
                 color: Colors.pink,

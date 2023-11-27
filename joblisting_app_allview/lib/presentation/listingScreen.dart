@@ -2,22 +2,49 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joblisting_app_allview/email_auth/login.dart';
+import 'package:joblisting_app_allview/model/applyForjobmodel.dart';
 
-import '../ChatFunctionality/model/messageModel.dart';
 import '../ChatFunctionality/model/usermodel.dart';
-import '../ChatFunctionality/ui/chatroom.dart';
 import '../model/uploadDatamodel.dart';
-import '../publishApp/publishjob.dart';
+import 'ApplyingForJob.dart/ApplyingForJob.dart';
+import 'publishApp/publishjob.dart';
 
 class ListingScreen extends StatefulWidget {
+  UserModel? userModel;
+  User? firebaseuser;
+
+  ListingScreen({super.key, this.userModel, this.firebaseuser});
   @override
   State<ListingScreen> createState() => _ListingScreenState();
 }
 
 class _ListingScreenState extends State<ListingScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    log(widget.userModel.toString());
+    log(widget.firebaseuser.toString());
+  }
+
+  logout() async {
+    log(widget.userModel.toString());
+    await FirebaseAuth.instance.signOut();
+    widget.userModel = null;
+    setState(() {});
+    Navigator.popUntil(
+        context,
+        (route) => route
+            .isFirst); //closes all pages before current page which is going to be the first
+    Navigator.pushReplacement(
+        context, CupertinoPageRoute(builder: (context) => ListingScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,27 +55,50 @@ class _ListingScreenState extends State<ListingScreen> {
           Padding(
             padding:
                 const EdgeInsets.only(left: 0, right: 2, top: 10, bottom: 10),
-            child: TextButton(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+            child: (widget.firebaseuser == null)
+                ? TextButton(
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.teal)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: const Text(
+                        "login/SignUp",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    backgroundColor: MaterialStateProperty.all(Colors.teal)),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: const Text(
-                    "login/SignUp",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
-                }),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    })
+                : TextButton(
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.teal)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: const Text(
+                        "Logout",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    onPressed: () {
+                      logout();
+                    }),
           ),
           SizedBox(
             width: 10,
@@ -72,10 +122,22 @@ class _ListingScreenState extends State<ListingScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PublishJob()));
+                  if (widget.userModel != null) {
+                    if (widget.userModel!.userType == "Jobprovider") {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PublishJob()));
+                    } else if (widget.userModel!.userType == "JobSeeker") {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Please register as Company First")));
+                    }
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
+                  }
                 }),
           ),
         ],
@@ -151,11 +213,25 @@ class _ListingScreenState extends State<ListingScreen> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              // Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //         builder: (context) =>
-                                              //             const PublishJob()));
+                                              if (widget.firebaseuser != null) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => ApplyForJob(
+                                                            JobId: currentdata
+                                                                .id
+                                                                .toString(),
+                                                            userModel: widget
+                                                                .userModel!,
+                                                            firebaseuser: widget
+                                                                .firebaseuser!)));
+                                              } else {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const LoginPage()));
+                                              }
                                             }),
                                       ],
                                     ),
