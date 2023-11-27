@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const Center(
                 child: Text(
-                  "MLPTechster \nLogin",
+                  "Job Listing \nLogin",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 50,

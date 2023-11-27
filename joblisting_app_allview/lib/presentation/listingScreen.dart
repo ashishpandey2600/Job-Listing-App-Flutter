@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joblisting_app_allview/email_auth/login.dart';
 import 'package:joblisting_app_allview/model/applyForjobmodel.dart';
+import 'package:joblisting_app_allview/presentation/userinfo.dart';
 
 import '../ChatFunctionality/model/usermodel.dart';
 import '../model/uploadDatamodel.dart';
@@ -92,12 +93,18 @@ class _ListingScreenState extends State<ListingScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(3.0),
                       child: const Text(
-                        "Logout",
+                        "My Profile",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                     onPressed: () {
-                      logout();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                    userModel: widget.userModel!,
+                                    firebaseUser: widget.firebaseuser!,
+                                  )));
                     }),
           ),
           SizedBox(
@@ -124,13 +131,12 @@ class _ListingScreenState extends State<ListingScreen> {
                 onPressed: () {
                   if (widget.userModel != null) {
                     if (widget.userModel!.userType == "Jobprovider") {
-
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const PublishJob()));
                     } else if (widget.userModel!.userType == "JobSeeker") {
-                      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text("Please register as Company First")));
                     }
                   } else {
